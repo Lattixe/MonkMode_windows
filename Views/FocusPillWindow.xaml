@@ -1,0 +1,116 @@
+<Window x:Class="MonkMode.Views.FocusPillWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Focus"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="Manual"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        Topmost="True"
+        ShowInTaskbar="False"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    <Window.Resources>
+        <!-- Pulse animation for the live indicator -->
+        <Storyboard x:Key="PulseAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetName="LiveDot"
+                             Storyboard.TargetProperty="Opacity"
+                             From="1" To="0.4" Duration="0:0:1"
+                             AutoReverse="True">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0" To="1" Duration="0:0:0.3"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <!-- Main pill container -->
+    <Border x:Name="PillBorder"
+            Background="#E6141417"
+            BorderBrush="{StaticResource BorderSubtleBrush}"
+            BorderThickness="1"
+            CornerRadius="24"
+            Padding="6"
+            Margin="8">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="0.4" Color="Black"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Live indicator + Task name -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource SurfaceHighBrush}"
+                    CornerRadius="18"
+                    Padding="12,8,16,8"
+                    Margin="0,0,4,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <!-- Pulsing red dot -->
+                    <Ellipse x:Name="LiveDot"
+                             Width="8" Height="8"
+                             Fill="{StaticResource LiveBrush}"
+                             Margin="0,0,10,0"/>
+                    
+                    <!-- Task name -->
+                    <TextBlock x:Name="TaskNameText"
+                               Text="Writing report"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontSize="13"
+                               FontWeight="Medium"
+                               FontFamily="{StaticResource FontFamily}"
+                               MaxWidth="200"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Timer display -->
+            <Border Grid.Column="1"
+                    Padding="16,8"
+                    MinWidth="80">
+                <TextBlock x:Name="TimerText"
+                           Text="24:59"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           FontFamily="{StaticResource MonoFont}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Border>
+
+            <!-- Extend button (+5) -->
+            <Button x:Name="ExtendButton"
+                    Grid.Column="2"
+                    Content="+5"
+                    Style="{StaticResource PillButton}"
+                    ToolTip="Add 5 minutes"
+                    Click="ExtendButton_Click"
+                    Margin="0,0,4,0"
+                    FontSize="12"
+                    Foreground="{StaticResource TextTertiaryBrush}"/>
+
+            <!-- Close/End button -->
+            <Button x:Name="CloseButton"
+                    Grid.Column="3"
+                    Width="32" Height="32"
+                    Style="{StaticResource IconButton}"
+                    ToolTip="End session (Ctrl+Shift+Q)"
+                    Click="CloseButton_Click">
+                <TextBlock Text="✕" FontSize="12"/>
+            </Button>
+        </Grid>
+    </Border>
+</Window>

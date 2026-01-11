@@ -1,0 +1,217 @@
+<Window x:Class="MonkMode.Views.SessionSummaryDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Session Complete"
+        Height="580" Width="440"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize">
+
+    <Border Background="{StaticResource VoidGradient}" 
+            CornerRadius="16" 
+            BorderBrush="{StaticResource CharcoalBrush}"
+            BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" 
+                    Background="{StaticResource AbyssBrush}" 
+                    CornerRadius="16,16,0,0"
+                    Padding="24,20">
+                <StackPanel>
+                    <TextBlock Text="🧘  S E S S I O N   C O M P L E T E"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource EmberBrush}"/>
+                    <TextBlock x:Name="TaskNameText"
+                               Text="Deep Work Session"
+                               FontSize="22"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource SoftWhiteBrush}"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Content -->
+            <ScrollViewer Grid.Row="1" 
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="24,16">
+                <StackPanel>
+                    
+                    <!-- Stats Grid -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Duration -->
+                        <Border Grid.Column="0" Grid.Row="0"
+                                Background="{StaticResource ShadowBrush}"
+                                CornerRadius="8"
+                                Padding="16"
+                                Margin="0,0,6,6">
+                            <StackPanel>
+                                <TextBlock Text="⏱️ Duration"
+                                           Foreground="{StaticResource DimTextBrush}"
+                                           FontSize="11"/>
+                                <TextBlock x:Name="DurationText"
+                                           Text="00:00:00"
+                                           Foreground="{StaticResource SoftWhiteBrush}"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           FontFamily="Cascadia Code, Consolas"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Intensity -->
+                        <Border Grid.Column="1" Grid.Row="0"
+                                Background="{StaticResource ShadowBrush}"
+                                CornerRadius="8"
+                                Padding="16"
+                                Margin="6,0,0,6">
+                            <StackPanel>
+                                <TextBlock Text="🎯 Intensity"
+                                           Foreground="{StaticResource DimTextBrush}"
+                                           FontSize="11"/>
+                                <TextBlock x:Name="IntensityText"
+                                           Text="Deep Work"
+                                           Foreground="{StaticResource EmberBrush}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Interventions -->
+                        <Border Grid.Column="0" Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                Background="{StaticResource ShadowBrush}"
+                                CornerRadius="8"
+                                Padding="16"
+                                Margin="0,6,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚡" FontSize="18" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <StackPanel>
+                                    <TextBlock Text="Distractions Blocked"
+                                               Foreground="{StaticResource DimTextBrush}"
+                                               FontSize="11"/>
+                                    <TextBlock x:Name="InterventionText"
+                                               Text="0"
+                                               Foreground="{StaticResource SuccessBrush}"
+                                               FontSize="18"
+                                               FontWeight="Bold"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Flow Rating -->
+                    <TextBlock Text="How was your flow?"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               FontSize="12"
+                               Margin="0,0,0,10"/>
+                    
+                    <StackPanel x:Name="RatingPanel" 
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,20">
+                        <Button x:Name="Star1" Content="★" Tag="1" Click="StarRating_Click" Style="{StaticResource SecondaryButton}" FontSize="24" Padding="8,4" Margin="2"/>
+                        <Button x:Name="Star2" Content="★" Tag="2" Click="StarRating_Click" Style="{StaticResource SecondaryButton}" FontSize="24" Padding="8,4" Margin="2"/>
+                        <Button x:Name="Star3" Content="★" Tag="3" Click="StarRating_Click" Style="{StaticResource SecondaryButton}" FontSize="24" Padding="8,4" Margin="2"/>
+                        <Button x:Name="Star4" Content="★" Tag="4" Click="StarRating_Click" Style="{StaticResource SecondaryButton}" FontSize="24" Padding="8,4" Margin="2"/>
+                        <Button x:Name="Star5" Content="★" Tag="5" Click="StarRating_Click" Style="{StaticResource SecondaryButton}" FontSize="24" Padding="8,4" Margin="2"/>
+                    </StackPanel>
+
+                    <!-- User Notes -->
+                    <TextBlock Text="What distracted you? (Optional)"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               FontSize="12"
+                               Margin="0,0,0,8"/>
+                    <TextBox x:Name="UserNotesInput"
+                             Style="{StaticResource ModernTextBox}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="70"
+                             VerticalScrollBarVisibility="Auto"
+                             Text=""/>
+
+                    <!-- AI Coach Response -->
+                    <Border x:Name="CoachResponsePanel"
+                            Background="#15FF6B35"
+                            BorderBrush="#30FF6B35"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="16"
+                            Margin="0,20,0,0"
+                            Visibility="Collapsed">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <TextBlock Text="🧘" FontSize="16" Margin="0,0,8,0"/>
+                                <TextBlock Text="The Monk Says..."
+                                           Foreground="{StaticResource EmberBrush}"
+                                           FontWeight="SemiBold"
+                                           FontSize="12"/>
+                            </StackPanel>
+                            <TextBlock x:Name="CoachResponseText"
+                                       Text=""
+                                       Foreground="{StaticResource SoftWhiteBrush}"
+                                       FontSize="13"
+                                       TextWrapping="Wrap"
+                                       LineHeight="20"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Loading indicator -->
+                    <TextBlock x:Name="LoadingText"
+                               Text="🔄 Analyzing session..."
+                               Foreground="{StaticResource DimTextBrush}"
+                               FontSize="12"
+                               HorizontalAlignment="Center"
+                               Margin="0,16,0,0"
+                               Visibility="Collapsed"/>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Footer -->
+            <Border Grid.Row="2"
+                    Background="{StaticResource AbyssBrush}"
+                    CornerRadius="0,0,16,16"
+                    Padding="24,16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="GetCoachingButton"
+                            Grid.Column="0"
+                            Content="Get AI Coaching"
+                            Style="{StaticResource SecondaryButton}"
+                            Click="GetCoaching_Click"
+                            Margin="0,0,12,0"/>
+
+                    <Button x:Name="DoneButton"
+                            Grid.Column="1"
+                            Content="Done"
+                            Style="{StaticResource PrimaryButton}"
+                            Click="Done_Click"
+                            Width="100"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,27 @@
+<Window x:Class="MonkMode.Views.WindowBorderOverlay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        Topmost="True"
+        IsHitTestVisible="False"
+        ResizeMode="NoResize">
+    
+    <!-- Blue glowing border around the tracked window -->
+    <Border x:Name="GlowBorder"
+            BorderThickness="2"
+            CornerRadius="8"
+            Margin="4">
+        <Border.BorderBrush>
+            <SolidColorBrush Color="#3B82F6" Opacity="0.8"/>
+        </Border.BorderBrush>
+        <Border.Effect>
+            <DropShadowEffect Color="#3B82F6" 
+                              BlurRadius="20" 
+                              ShadowDepth="0" 
+                              Opacity="0.6"/>
+        </Border.Effect>
+    </Border>
+</Window>
