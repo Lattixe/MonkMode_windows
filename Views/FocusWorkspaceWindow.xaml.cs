@@ -6,6 +6,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using MonkMode.Models;
 using MonkMode.Services;
 using static MonkMode.Services.NativeMethods;
 using Color = System.Windows.Media.Color;
@@ -21,6 +22,7 @@ public partial class FocusWorkspaceWindow : Window
     private readonly DispatcherTimer _countdownTimer;
     private readonly DispatcherTimer _windowWatcher;
     private readonly SystemBlockerService _blockerService;
+    private readonly DatabaseService _database;
     private DateTime _sessionEndTime;
     private DateTime _sessionStartTime;
     private int _totalSeconds;
@@ -83,8 +85,9 @@ public partial class FocusWorkspaceWindow : Window
         };
         _windowWatcher.Tick += OnWindowWatcherTick;
         
-        // Initialize blocker service
+        // Initialize services
         _blockerService = new SystemBlockerService();
+        _database = new DatabaseService();
 
         Loaded += OnLoaded;
         Closing += OnClosing;
@@ -839,6 +842,28 @@ public partial class FocusWorkspaceWindow : Window
 
         var actualDuration = DateTime.Now - _sessionStartTime;
 
+        // Save session to database
+        try
+        {
+            var sessionLog = new SessionLog
+            {
+                TaskName = TaskName,
+                StartTime = _sessionStartTime,
+                EndTime = DateTime.Now,
+                IntensityLevel = 2, // Default to "Deep Work"
+                InterventionCount = 0, // TODO: Track actual interventions
+                BlockedDomains = EnableDnsBlocking ? SystemBlockerService.DefaultBlockedDomains.ToList() : new(),
+                BlockedProcesses = EnableProcessBlocking ? SystemBlockerService.DefaultBlockedProcesses.ToList() : new()
+            };
+            
+            int sessionId = _database.SaveSession(sessionLog);
+            Debug.WriteLine($"[Workspace] Session saved to database with ID: {sessionId}");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[Workspace] Failed to save session: {ex.Message}");
+        }
+
         try
         {
             SessionEnded?.Invoke(this, new FocusSessionResult
@@ -877,5 +902,6 @@ public partial class FocusWorkspaceWindow : Window
         ShowTaskbar();
         StopDistractionBlocking();
         _blockerService?.Dispose();
+        _database?.Dispose();
     }
 }

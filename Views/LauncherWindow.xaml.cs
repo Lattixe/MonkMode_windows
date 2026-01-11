@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using System.Windows;
+using MonkMode.Models;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using Key = System.Windows.Input.Key;
 using MouseButtonEventArgs = System.Windows.Input.MouseButtonEventArgs;

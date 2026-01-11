@@ -4,6 +4,7 @@ using System.Windows.Interop;
 using System.Windows.Threading;
 using System.Windows.Forms;
 using System.Drawing;
+using MonkMode.Models;
 using MonkMode.Services;
 using MonkMode.Views;
 using static MonkMode.Services.NativeMethods;
@@ -105,9 +106,29 @@ public partial class App : Application
 
     private void SetupTrayIcon()
     {
+        // Load custom icon from embedded resource
+        Icon trayIcon;
+        try
+        {
+            var uri = new Uri("pack://application:,,,/Resources/app.ico");
+            var streamInfo = System.Windows.Application.GetResourceStream(uri);
+            if (streamInfo?.Stream != null)
+            {
+                trayIcon = new Icon(streamInfo.Stream);
+            }
+            else
+            {
+                trayIcon = SystemIcons.Application;
+            }
+        }
+        catch
+        {
+            trayIcon = SystemIcons.Application;
+        }
+        
         _trayIcon = new NotifyIcon
         {
-            Icon = SystemIcons.Application,
+            Icon = trayIcon,
             Text = "Monk Mode (Ctrl+Shift+Space)",
             Visible = true
         };
